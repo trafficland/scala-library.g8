@@ -1,17 +1,17 @@
 import sbt._
 import Keys._
-
+import trafficland.sbt.plugins.TrafficLandStandardPluginSet
+import trafficland.opensource.sbt.plugins._
 
 object Build extends sbt.Build {
   import Dependencies._
 
   lazy val myProject = Project("$name$", file("."))
+    .setting(TrafficLandStandardPluginSet.plugs :_*)
     .settings(
-      organization  := "com.trafficland",
-      version       := "0.1.0-SNAPSHOT",
-      scalaVersion  := "2.10.0",
-      scalacOptions := Seq("-deprecation", "-encoding", "utf8"),
-      resolvers     ++= Dependencies.resolutionRepos,
+      isApp := false
+      version := "0.1.0-SNAPSHOT".toReleaseFormat,
+      resolvers ++= Dependencies.resolutionRepos,
       libraryDependencies ++= Seq(
         CompileDeps.slf4j,
         CompileDeps.logback,
@@ -20,21 +20,13 @@ object Build extends sbt.Build {
         TestDeps.junit
       ),
       testListeners += SbtTapReporting(),
-      parallelExecution in Test := false,
-      credentials += Credentials("Artifactory Realm", "build01.tl.com", "$artifactory_user$", "$artifactory_password$"),
-      publishTo <<= (version) {
-        version: String =>
-          val repo = "http://build01.tl.com:8081/artifactory/"
-          if (version.trim endsWith "SNAPSHOT") Some("TrafficLand Snapshots" at (repo + "com.trafficland.snapshots"))
-          else if (version.trim endsWith "RC") Some("TrafficLand Release Candidates" at (repo + "com.trafficland.releasecandidates"))
-          else Some("TrafficLand Releases" at (repo + "com.trafficland.final"))
-      }
+      parallelExecution in Test := false      
     )
 }
 
 object Dependencies {
   val resolutionRepos = Seq(
-    "TrafficLand Artifactory Server" at "http://build01.tl.com:8081/artifactory/repo"
+    "TrafficLand Artifactory Server (with default Maven pattern)" at "http://build01.tl.com:8081/artifactory/repo"
   )
 
   object V {
