@@ -2,7 +2,7 @@ require 'rest_client'
 require 'open-uri'
 require 'java_properties'
 
-props = JavaProperties::Properties.new("~/.ivy2/tlcredentials/.jenkinscredentials")
+props = JavaProperties::Properties.new("#{Dir.home}/.ivy2/tlcredentials/.jenkinscredentials")
 
 user = props[:user]
 password = props[:password]
