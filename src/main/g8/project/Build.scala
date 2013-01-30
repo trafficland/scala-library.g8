@@ -9,7 +9,7 @@ object Build extends sbt.Build {
   lazy val myProject = Project("$name$", file("."))
     .setting(TrafficLandStandardPluginSet.plugs :_*)
     .settings(
-      isApp := false
+      isApp := false,
       version := "0.1.0-SNAPSHOT".toReleaseFormat,
       resolvers ++= Dependencies.resolutionRepos,
       libraryDependencies ++= Seq(
