@@ -33,7 +33,6 @@ object Dependencies {
     val mockito     = "1.9.0"
     val slf4j       = "1.6.4"
     val logback     = "1.0.0"
-    val ning        = "1.7.4"
     val scalatest   = "2.0.M5b"
     val junit       = "4.9"
   }
