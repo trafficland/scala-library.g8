@@ -12,13 +12,7 @@ object Build extends sbt.Build {
       isApp := false,
       version := "0.1.0-SNAPSHOT".toReleaseFormat,
       resolvers ++= Dependencies.resolutionRepos,
-      libraryDependencies ++= Seq(
-        CompileDeps.slf4j,
-        CompileDeps.logback,
-        TestDeps.scalatest,
-        TestDeps.mockito,
-        TestDeps.junit
-      ),
+      libraryDependencies ++= compileDeps ++ testDeps,
       testListeners += SbtTapReporting(),
       parallelExecution in Test := false      
     )
@@ -37,14 +31,14 @@ object Dependencies {
     val junit       = "4.9"
   }
 
-  object CompileDeps {
-    val slf4j       = "org.slf4j"                 %  "slf4j-api"          % V.slf4j
-    val logback     = "ch.qos.logback"            %  "logback-classic"    % V.logback
-  }
+  val compileDeps = Seq(
+    "org.slf4j"                 %  "slf4j-api"          % V.slf4j,
+    "ch.qos.logback"            %  "logback-classic"    % V.logback
+  )
 
-  object TestDeps {
-    val junit       = "junit"                     %  "junit"                 % V.junit
-    val mockito     = "org.mockito"               %  "mockito-core"          % V.mockito
-    val scalatest   = "org.scalatest"             %% "scalatest" 	           % V.scalatest
-  }
+  val testDeps = Seq(
+    "junit"                     %  "junit"                 % V.junit,
+    "org.mockito"               %  "mockito-core"          % V.mockito,
+    "org.scalatest"             %% "scalatest" 	           % V.scalatest
+  )
 }
